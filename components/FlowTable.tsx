@@ -32,7 +32,7 @@ const initialFlows = [
     lastRunStatus: 'Not Run', 
     lastRunTime: '-', 
     error: null,
-    endpoint: '/api/performance/load-stress'
+    endpoint: 'http://127.0.0.1:8000/load_tests/'
   },
   { 
     id: 4, 
@@ -89,8 +89,15 @@ export default function FlowTable() {
       if (!response.ok) {
         throw new Error('Failed to run flow')
       }
-
-      const data = await response.json()
+      // ✅ Handle File Response
+      const blob = await response.blob(); // Convert response to a blob
+      const fileURL = window.URL.createObjectURL(blob); // Create URL from blob
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.setAttribute("download", `${flow.name}`); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       
       // Update flow with success status
       setFlows(flows.map(f => 
