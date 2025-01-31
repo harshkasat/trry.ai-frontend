@@ -7,10 +7,42 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Play } from 'lucide-react'
 
 const initialFlows = [
-  { id: 1, name: 'Website Performance', url: '', lastRunStatus: 'Not Run', lastRunTime: '-', error: null },
-  { id: 2, name: 'Website Responsive Performance', url: '', lastRunStatus: 'Not Run', lastRunTime: '-', error: null },
-  { id: 3, name: 'Load and Stress Performance', url: '', lastRunStatus: 'Not Run', lastRunTime: '-', error: null },
-  { id: 4, name: 'Overall Website Performance', url: '', lastRunStatus: 'Not Run', lastRunTime: '-', error: null },
+  { 
+    id: 1, 
+    name: 'Website Performance', 
+    url: '', 
+    lastRunStatus: 'Not Run', 
+    lastRunTime: '-', 
+    error: null,
+    endpoint: 'http://127.0.0.1:8000/lighthouse_test/'
+  },
+  { 
+    id: 2, 
+    name: 'Website Responsive Performance', 
+    url: '', 
+    lastRunStatus: 'Not Run', 
+    lastRunTime: '-', 
+    error: null,
+    endpoint: '/api/performance/responsive'
+  },
+  { 
+    id: 3, 
+    name: 'Load and Stress Performance', 
+    url: '', 
+    lastRunStatus: 'Not Run', 
+    lastRunTime: '-', 
+    error: null,
+    endpoint: '/api/performance/load-stress'
+  },
+  { 
+    id: 4, 
+    name: 'Overall Website Performance', 
+    url: '', 
+    lastRunStatus: 'Not Run', 
+    lastRunTime: '-', 
+    error: null,
+    endpoint: '/api/performance/overall'
+  },
 ]
 
 export default function FlowTable() {
@@ -41,7 +73,7 @@ export default function FlowTable() {
     ))
 
     try {
-      const response = await fetch('your-django-endpoint', {
+      const response = await fetch(flow.endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +82,8 @@ export default function FlowTable() {
           flowId: flow.id,
           url: flow.url,
           name: flow.name
-        })
+        }),
+        credentials: "include",  // Allows cookies/sessions if required 
       })
 
       if (!response.ok) {
