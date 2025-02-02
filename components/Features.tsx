@@ -13,13 +13,13 @@ export default function Features() {
               <div className="font-mono text-sm opacity-70">
                 <pre className="whitespace-pre-wrap">
                   {`<body>
-  <div>
-    <button class="tsdg121"/>
-    <div>
-      <a id="cta-email12"/>
-    </div>
-  </div>
-</body>`}
+                      <div>
+                        <button class="tsdg121"/>
+                        <div>
+                          <a id="cta-email12"/>
+                        </div>
+                      </div>
+                    </body>`}
                 </pre>
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function Features() {
           <div>
             <h3 className="text-xl font-semibold mb-4">Fully managed</h3>
             <p className="text-gray-400">
-              Fix AI is fully managed. Share your website with us, and we'll build and run high-quality tests for you. <span className="font-bold">Zero</span> setup or maintenance from your end.
+              Fix AI is fully managed. Share your website with us, and we&apos;ll build and run high-quality tests for you. <span className="font-bold">Zero</span> setup or maintenance from your end.
             </p>
           </div>
         </div>
