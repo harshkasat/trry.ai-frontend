@@ -6,7 +6,17 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Play } from 'lucide-react'
 
-const initialFlows = [
+type Flow = {
+  id: number;
+  name: string;
+  url: string;
+  lastRunStatus: string;
+  lastRunTime: string;
+  error: string | null;
+  endpoint: string;
+};
+
+const initialFlows: Flow[] = [
   { 
     id: 1, 
     name: 'Website Performance', 
@@ -23,7 +33,7 @@ const initialFlows = [
     lastRunStatus: 'Not Run', 
     lastRunTime: '-', 
     error: null,
-    endpoint: '/api/performance/responsive'
+    endpoint: 'http://127.0.0.1:8000/capture_screenshots_websites/'
   },
   { 
     id: 3, 
@@ -48,13 +58,13 @@ const initialFlows = [
 export default function FlowTable() {
   const [flows, setFlows] = useState(initialFlows)
 
-  const updateUrl = (id, newUrl) => {
+  const updateUrl = (id: number, newUrl: string) => {
     setFlows(flows.map(flow => 
       flow.id === id ? { ...flow, url: newUrl, error: null } : flow
     ))
   }
 
-  const runFlow = async (flow) => {
+  const runFlow = async (flow: Flow) => {
     if (!flow.url) {
       setFlows(flows.map(f => 
         f.id === flow.id ? { ...f, error: 'Please enter a URL first' } : f
@@ -111,12 +121,13 @@ export default function FlowTable() {
 
     } catch (error) {
       // Update flow with error status
+      const errorMessage = error instanceof Error ? error.message : 'Failed to run flow';
       setFlows(flows.map(f => 
         f.id === flow.id ? { 
           ...f, 
           lastRunStatus: 'Error',
           lastRunTime: new Date().toLocaleString(),
-          error: error.message || 'Failed to run flow'
+          error: errorMessage
         } : f
       ))
     }
