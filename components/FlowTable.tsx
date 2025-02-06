@@ -51,7 +51,7 @@ const initialFlows: Flow[] = [
     lastRunStatus: 'Not Run', 
     lastRunTime: '-', 
     error: null,
-    endpoint: '/api/performance/overall'
+    endpoint: 'http://127.0.0.1:8000/websites_performance/'
   },
 ]
 
