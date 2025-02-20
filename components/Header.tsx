@@ -1,4 +1,6 @@
+'use client'
 import { Button } from "@/components/ui/button"
+import LoginButton from "./GoogleAuth"
 
 export default function Header() {
   return (
@@ -7,8 +9,9 @@ export default function Header() {
         <div className="w-8 h-8 bg-white"></div>
         <span className="text-xl font-bold">TrryFix</span>
       </div>
-      <Button variant="outline" className="text-black border-white">
-        Sign In
+      <Button>
+        {/* Sign In */}
+        <LoginButton />
       </Button>
     </header>
   )
