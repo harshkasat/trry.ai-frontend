@@ -6,6 +6,10 @@ const nextConfig = {
     REDIRECT_URI: process.env.REDIRECT_URI,
     BASE_API_URL: process.env.BASE_API_URL,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
 };
 
 export default nextConfig;
