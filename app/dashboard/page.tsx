@@ -1,5 +1,5 @@
 import Header from '@/components/Header'
-import Hero from '@/components/Hero'
+// import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import FlowTable from '@/components/FlowTable'
 import { Toaster } from "@/components/ui/toaster"

@@ -1,16 +1,11 @@
+'use client'
 import React from "react";
 import { SparklesCore } from "@/components/ui/sparkles";
-import { Header1 } from "@/components/ui/header";
 import { p } from "framer-motion/client";
 
 
-function HeaderDemo() {
-  return (
-    <div className="block">
-      <Header1 />
-    </div>
-  );
-}
+import { Home, User, Briefcase, FileText} from 'lucide-react'
+
 
 export function SparklesPreview() {
   return (
@@ -92,4 +87,3 @@ export function SparklesPreviewColorful() {
     </div>
   );
 }
-export {HeaderDemo}
