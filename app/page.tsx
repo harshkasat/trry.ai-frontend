@@ -3,17 +3,24 @@ import Features from '@/components/Features'
 import FlowTable from '@/components/FlowTable'
 import { Toaster } from "@/components/ui/toaster"
 import { DemoHeroGeometric } from '@/components/Hero'
-import { NavBarDemo } from '@/components/ui/navbar'
+import { NavbarDemo } from '@/components/ui/navbar'
 import {SparklesPreview } from "@/components/ui/code_demo"
 import { BentoDemo } from '@/components/Bento-grid'
+import { PricingPage } from '@/components/Price-card'
+import { FooterDemo } from '@/components/Footer'
+import { AnimatedTooltipPreview } from '@/components/ToolTip'
 
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <NavBarDemo/>      
+      {/* <NavBarDemo/> */}
+      < NavbarDemo/>
       <DemoHeroGeometric/>
       <BentoDemo/>
+      <AnimatedTooltipPreview/>
+      <PricingPage/>
+      <FooterDemo/>
     </main>
   )
 }

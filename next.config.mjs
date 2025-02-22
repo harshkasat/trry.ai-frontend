@@ -1,13 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    REDIRECT_URI: process.env.REDIRECT_URI,
-    BASE_API_URL: process.env.BASE_API_URL,
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    NEXT_PUBLIC_REDIRECT_URI: process.env.REDIRECT_URI,
+    NEXT_PUBLIC_BASE_API_URL: process.env.BASE_API_URL,
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  images:{
+    domains:['images.unsplash.com'],
   },
 
 };

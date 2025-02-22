@@ -1,102 +1,141 @@
-"use client"
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { SignupComponent } from "../Signup";
 
-import React, { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import Link from "next/link"
-import { LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+const transition = {
+  type: "spring",
+  mass: 0.5,
+  damping: 11.5,
+  stiffness: 100,
+  restDelta: 0.001,
+  restSpeed: 0.001,
+};
 
-interface NavItem {
-  name: string
-  url?: string; // Make url optional
-  icon: LucideIcon
-  render?: React.ReactNode; // Add render prop
-}
-
-interface NavBarProps {
-  items: NavItem[]
-  className?: string
-}
-
-export function NavBar({ items, className }: NavBarProps) {
-  const [activeTab, setActiveTab] = useState(items[0]?.name) // Optional chaining
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
+export const MenuItem = ({
+  setActive,
+  active,
+  item,
+  children,
+}: {
+  setActive: (item: string) => void;
+  active: string | null;
+  item: string;
+  children?: React.ReactNode;
+}) => {
   return (
-    <div
-      className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6",
-        className,
-      )}
-    >
-      <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
-        {items.map((item) => {
-          const Icon = item.icon
-          const isActive = activeTab === item.name
-
-          return (
-            item.render ? (
-              <div
-                key={item.name}
-                onClick={() => setActiveTab(item.name)}
-                className={cn(
-                  "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
-                  "text-gray-400 hover:text-gray-200",
-                  isActive && "bg-muted text-primary",
-                )}
-              >
-                {item.render}
+    <div onMouseEnter={() => setActive(item)} className="relative">
+      <div className="relative">
+        <motion.p
+          transition={{ duration: 0.3 }}
+          className="cursor-pointer text-white/70 hover:text-white relative px-4 py-1.5 text-sm font-medium"
+        >
+          {item}
+          {active === item && (
+            <motion.div
+              layoutId="lamp"
+              className="absolute inset-0 w-full bg-primary/5 rounded-full -z-10"
+              initial={false}
+              transition={transition}
+            >
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-white/40 rounded-t-full">
+                <div className="absolute w-8 h-4 bg-white/20 rounded-full blur-md -top-2 -left-1" />
+                <div className="absolute w-6 h-4 bg-white/20 rounded-full blur-md -top-1" />
+                <div className="absolute w-3 h-3 bg-white/20 rounded-full blur-sm top-0 left-1.5" />
               </div>
-            ) : (
-              <Link
-                key={item.name}
-                href={item.url || '#'} // Provide default value
-                onClick={() => setActiveTab(item.name)}
-                className={cn(
-                  "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
-                  isActive 
-                    ? "text-gray-200 text-white" // Active state
-                    : "text-gray-500 hover:text-gray-200", // Inactive state with hover
-                )}
-              >
-                <span className="hidden md:inline">{item.name}</span>
-                <span className="md:hidden">
-                  <Icon size={18} strokeWidth={2.5} />
-                </span>
-
-                {isActive && (
-                  <motion.div
-                    layoutId="lamp"
-                    className="absolute inset-0 w-full bg-white/5 rounded-full -z-10"
-                    initial={false}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                  >
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-white rounded-t-full">
-                      <div className="absolute w-12 h-6 bg-white/20 rounded-full blur-md -top-2 -left-2" />
-                      <div className="absolute w-8 h-6 bg-white/20 rounded-full blur-md -top-1" />
-                      <div className="absolute w-4 h-4 bg-white/20 rounded-full blur-sm top-0 left-2" />
-                    </div>
-                  </motion.div>
-                )}
-              </Link>
-            )
-          )
-        })}
+            </motion.div>
+          )}
+        </motion.p>
       </div>
+
+      {active !== null && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={transition}
+        >
+          {active === item && (
+            <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-4">
+              <motion.div
+                transition={transition}
+                layoutId="active"
+                className="bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-black/[0.2] dark:border-white/[0.2] shadow-xl"
+              >
+                <motion.div layout className="w-max h-full p-4">
+                  {children}
+                </motion.div>
+              </motion.div>
+            </div>
+          )}
+        </motion.div>
+      )}
     </div>
-  )
-}
+  );
+};
+
+export const Menu = ({
+  setActive,
+  children,
+}: {
+  setActive: (item: string | null) => void;
+  children: React.ReactNode;
+}) => {
+  return (
+    <nav
+      onMouseLeave={() => setActive(null)} // resets the state
+      className="relative rounded-full bg-black/20 border border-white/10 backdrop-blur-xl flex justify-center w-fit mx-auto shadow-lg"
+    >
+      <div className="flex items-center space-x-1 px-2 py-2">
+        {children}
+        <div className="ml-4 pl-4 border-l border-white/10">
+          <SignupComponent />
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export const ProductItem = ({
+  title,
+  description,
+  href,
+  src,
+}: {
+  title: string;
+  description: string;
+  href: string;
+  src: string;
+}) => {
+  return (
+    <Link href={href} className="flex space-x-2">
+      <Image
+        src={src}
+        width={140}
+        height={70}
+        alt={title}
+        className="flex-shrink-0 rounded-md shadow-2xl"
+      />
+      <div>
+        <h4 className="text-xl font-bold mb-1 text-black dark:text-white">
+          {title}
+        </h4>
+        <p className="text-neutral-700 text-sm max-w-[10rem] dark:text-neutral-300">
+          {description}
+        </p>
+      </div>
+    </Link>
+  );
+};
+
+export const HoveredLink = ({ children, ...rest }: any) => {
+  return (
+    <Link
+      {...rest}
+      className="text-neutral-700 dark:text-neutral-200 hover:text-black "
+    >
+      {children}
+    </Link>
+  );
+};
