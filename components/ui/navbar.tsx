@@ -10,7 +10,6 @@ export function NavBarDemo() {
     { name: 'Projects', url: '#', icon: Briefcase },
     { name: 'Resume', url: '#', icon: FileText },
     { name:'Signup', icon: User, render:<SignupComponent/>}
-    // {name: 'Signup', url:'#', icon: User
   ]
 
   return <NavBar items={navItems} />
