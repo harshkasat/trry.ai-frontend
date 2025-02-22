@@ -55,17 +55,17 @@ export function FooterDemo() {
     <Footer
       className="mt-20"
       brand={{
-        name: "webtics",
-        description: "Track and monitor your website traffic.",
+        name: "Zed",
+        description: "Track website",
       }}
       socialLinks={[
         {
           name: "Twitter",
-          href: "https://x.com/raymethula",
+          href: "https://x.com/",
         },
         {
           name: "Github",
-          href: "https://github.com/serafimcloud",
+          href: "https://github.com/",
         },
         {
           name: "Discord",

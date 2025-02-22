@@ -10,9 +10,9 @@ function HeroSection() {
   return (
     <div className="mb-2">
       <HeroGeometric badge="Your Personal Assistant to manage website Testing"
-            title1 = "Elevate Your"
-            title2 = "Digital Vision"
-            title3="This something noice i ever seen"
+            title1 = "Sample"
+            title2 = "Sample"
+            title3="Something is cooking"
              />
     </div>
   )
