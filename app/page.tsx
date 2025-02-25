@@ -9,6 +9,7 @@ import { BentoDemo } from '@/components/Bento-grid'
 import { PricingPage } from '@/components/Price-card'
 import { FooterDemo } from '@/components/Footer'
 import { AnimatedTooltipPreview } from '@/components/ToolTip'
+import { FAQ } from '@/components/FAQ'
 
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <BentoDemo/>
       <AnimatedTooltipPreview/>
       <PricingPage/>
+      <FAQ/>
       <FooterDemo/>
     </main>
   )
