@@ -27,8 +27,10 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.469.0",
-    "next": "14.2.16",
+    "next": "^15.2.1",
+    "next-client-cookies": "^2.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-google-button": "^0.8.0",
@@ -36,6 +38,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

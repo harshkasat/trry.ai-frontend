@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "@/components/ui/tubelight-navbar";
 import { cn } from "@/lib/utils";
-
 export function NavbarDemo() {
   return (
     <Navbar/>

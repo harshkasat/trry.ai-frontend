@@ -1,4 +1,8 @@
 "use client"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
+
 
 import {
   Bell,
@@ -38,7 +42,72 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
+// Define TypeScript interface for user profile
+interface UserProfile {
+  email: string;
+  "first name": string;
+  "last name": string;
+  "profile picture": string;
+}
+
+const handleLogout  = () => {
+  console.log('this function is called!')
+  Cookies.remove('access_token')
+  Cookies.remove('refresh_token')
+  
+  // Redirect to login page
+  window.location.href = "/";
+};
+
+
 export default function Dashboard() {
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const access_token =  Cookies.get('access_token')
+  if (access_token){
+    console.log('✅ The access token fetch from cookie:')
+  }else{
+    console.log('❌ Access Token does not fetch from cookies')
+  }
+
+  
+  useEffect(() => {
+    const fetchUser = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/auth/api/login/profile/", {
+          method: "GET",
+          credentials: "include",  // ✅ REQUIRED for cookies to be sent
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${access_token}`, // If you are sending a Bearer token
+          },
+        });
+  
+        if (response.ok) {
+          const userData = await response.json();
+          console.log(userData);
+          setUserProfile(userData); // Store the fetched user data
+        } else {
+          console.error("Failed to fetch user profile");
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        router.push("/");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchUser();
+  }, [router]);
+  
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
@@ -94,13 +163,15 @@ export default function Dashboard() {
                     <SidebarMenuButton className="flex w-full items-center justify-between rounded-md px-3 py-2 hover:bg-gray-100">
                       <div className="flex items-center">
                         <Image 
-                          src="/placeholder-user.jpg" 
+                          src={userProfile ? userProfile["profile picture"] : "/placeholder-user.jpg"}
                           alt="User" 
                           width={32} 
                           height={32} 
                           className="mr-3 rounded-full" 
                         />
-                        <span className="text-sm font-medium">John Doe</span>
+                        <span className="text-sm font-medium">
+                        {userProfile ? `${userProfile["first name"]} ${userProfile["last name"]}` : "Loading..."}
+                        </span>
                       </div>
                       <ChevronDown className="h-4 w-4" />
                     </SidebarMenuButton>
@@ -117,7 +188,7 @@ export default function Dashboard() {
                       <span>Settings</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout} >
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Log out</span>
                     </DropdownMenuItem>

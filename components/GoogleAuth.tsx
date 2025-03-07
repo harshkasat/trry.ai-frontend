@@ -60,33 +60,31 @@ export function useGoogleAuth() {
   const router = useRouter();
 
   useEffect(() => {
-    // Ensure environment variables are loaded
-    if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || 
-        !process.env.NEXT_PUBLIC_BASE_API_URL || 
-        !process.env.NEXT_PUBLIC_REDIRECT_URI) {
-      console.error("Missing environment variables for Google Auth");
-    }
-
-    // Check for the presence of cookies after the redirect
-    const accessToken = getCookie('access_token');
-    const refreshToken = getCookie('refresh_token');
-
-    if (accessToken && refreshToken) {
+    // Fetch user profile after redirection
+    const fetchUser = async () => {
       setIsLoading(true);
 
-      fetchUserProfile(accessToken)
-        .then(profile => {
-          setUserProfile(profile);
-          setIsLoading(false);
-          router.push('/dashboard');
-        })
-        .catch(error => {
-          console.error("Error fetching profile:", error);
-          setIsLoading(false);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/api/profile`, {
+          method: 'GET',
+          credentials: 'include',  // Ensures cookies are included
         });
-    } else {
-      setIsLoading(false);
-    }
+
+        if (response.ok) {
+          const userData = await response.json();
+          console.log(userData);
+          setUserProfile(userData);
+        } else {
+          console.error("Failed to fetch user profile");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
   }, [router]);
 
   return {
